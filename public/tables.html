@@ -22,16 +22,16 @@
     <title>WSYF Tables</title>
 </head>
 
+
 <body>
     <div class="container">
-        <div class="jumbotron jumbotron-fluid">
+        <div class="jumbotron">
             <div class="container">
                 <h1 class="display-4">Whatever Strikes Your Fancy</h1>
-                <br>
+                <hr>
                 <a href="./index.html">
                     <button class="btn btn-lg btn-warning btn-match">
-                        <span class="fa fa-home">
-                        </span>
+                        <span class="fa fa-home"></span>
                     </button>
                 </a>
                 <p class="lead">We are limited to 5 tables in our humble resaurant.</p>
@@ -46,45 +46,36 @@
         <h3>Waiting List</h3>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            $.get("api/tables/", function (data) {
-                console.log(data);
-                if (data) {
-                    for (let i = 0; i < data.length; i++) {
-                        createRow(data);
-                    };
-                };
-            });
-
-            $.get("api/waitlist/", function (data) {
-                console.log(data);
-                if (data) {
-                    for (let i = 0; i < data.length; i++) {
-                        createRow(data);
-                    }
-                }
-            });
-
-            var createRow = function (data) {
-
-                var tRow = $("<tr class=container>");
-
-                var name = $("<td class=name>").text(data.name);
-                var phone = $("<td class=contact>").text(data.phone_num);
-                var email = $("<td class=contact>").text(data.email);
-                var unique_id = $("<td class = id>").text(data.unique_id);
-
-                tRow.append(name, phone, email, id);
-
-                // if () {
-                //     $("#occupiedTables").append(tRow);
-                // } else if () {
-                //     $("#waitList").append(tRow)
-                // }
+$( document ).ready(function() {
+    $.get("api/tables/", function(data) {
+            for (let i = 0; i < data.length; i++) {
+                $("#occupiedTables").append(createRow(data[i]))
             };
-        });
+    });
+
+    $.get("api/waitlist/", function(data) {
+            for (let i = 0; i < data.length; i++) {
+                $("#waitList").append(createRow(data[i]))
+            };
+    });
+
+    var createRow = function(object) {
+
+        var tRow = $("<tr class=container>");
+
+        var name = $("<td class=name>").text(object.name);
+        var phone = $("<td class=contact>").text(object.phone_num);
+        var email = $("<td class=contact>").text(object.email);
+        var unique_id = $("<td class = id>").text(object.unique_id);
+
+        return tRow.append(name, phone, email, unique_id);
+
+    };
+});
     </script>
 </body>
+</html>
 
 </html>
