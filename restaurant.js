@@ -9,29 +9,39 @@ let PORT = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.use('/', express.static(path.join(__dirname, '/public')));
+
 // Array to hold current reservation objects
-let currentReservations = [];
+let currentReservations = [
+    {
+    "name": 'Patrick',
+    "phone_number": 9842321201,
+    "email": "phaberern@gmail.com",
+    "unique_id": "sup"
+    },
+    {
+    "name": 'Logan',
+    "phone_number": 9123412442,
+    "email": "logan@gmail.com",
+    "unique_id": "supdude"
+    }
+];
 // Array to hold current waiting list objects
-let waitingList = [];
+let waitingList = [
+    {
+        "name": 'Patrick',
+        "phone_number": 9842321201,
+        "email": "phaberern@gmail.com",
+        "unique_id": "sup"
+        }
+];
 
 
 // Routes!
 
 // / ----> Root
 app.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname, "index.html"));
-});
-
-// /tables
-app.get("/tables", (req, res) => {
-    // serve up html
-  res.sendFile(path.join(_dirname, "tables.html"))
-});
-
-// /reserve
-app.get("/reserve", (req, res) => {
-    // serve up html
-    res.sendFile(path.join(__dirname, "reserve.html"))
+    res.sendFile(path.join(__dirname, "/public/index.html"));
 });
 
 
@@ -57,7 +67,6 @@ app.post("/api/waitlist", (req, res) => {
     // req.body is equal to the JSON post sent from the user
     // This works because of our body parsing middleware refer to lines 9 + 10
     let newWait = req.body;
-
     // This might need to be changed a bit depending on what we receive from the frontend.
     newWait.routeName = newWait.name.replace(/\s+/g, "").toLowerCase();
     console.log()
@@ -70,3 +79,7 @@ app.post("/api/waitlist", (req, res) => {
 app.listen(PORT, () => {
     console.log("App listening on PORT " + PORT);
 });
+
+
+
+//
